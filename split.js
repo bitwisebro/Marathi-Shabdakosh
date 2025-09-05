@@ -20,6 +20,9 @@ objects.forEach((obj) => {
     return;
   }
 
+  // Trim whitespace from key
+  key = key.trim();
+
   // Sanitize key for folder name (replace forbidden Windows characters)
   const safeKey = key.replace(/[\/\\:\*\?"<>\|]/g, "_");
 
@@ -67,7 +70,7 @@ if (objects.length !== actualFolderCount) {
 // Write missed keys to missed_keys.json
 if (missedKeys.length > 0) {
   fs.writeFileSync(
-    path.join(baseDir, "missed_keys.json"),
+    path.join(__dirname, "missed_keys.json"),
     JSON.stringify(missedKeys, null, 2),
     "utf8"
   );
@@ -83,12 +86,12 @@ const keySet = new Set(objects.map((obj) => obj.Key).filter(Boolean));
 const extraFolders = folderNames.filter((name) => !keySet.has(name));
 if (extraFolders.length > 0) {
   fs.writeFileSync(
-    path.join(baseDir, "extra_folders.json"),
+    path.join(__dirname, "flagged_folders.json"),
     JSON.stringify(extraFolders, null, 2),
     "utf8"
   );
   console.warn(
-    `Extra folders detected and written to extra_folders.json (${extraFolders.length} entries).`
+    `Extra folders detected and written to flagged_folders.json (${extraFolders.length} entries).`
   );
 } else {
   console.log("No extra folders detected.");
