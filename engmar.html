@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>English-Marathi API Endpoint</title>
+</head>
+<body>
+    <h1>English-Marathi API Endpoint</h1>
+    <form id="searchForm">
+        <input type="text" id="wordInput" placeholder="Enter English word (Key)">
+        <button type="submit">Search</button>
+    </form>
+    <div id="result"></div>
+    <script>
+    // Helper to get query param
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    async function fetchMeaning(key) {
+      const response = await fetch('engmar/index.json');
+      const data = await response.json();
+      const entry = data.EnglishMarathi.find(e => e.Key.toLowerCase() === key.toLowerCase());
+      return entry || null;
+    }
+
+    async function showResult(key) {
+      if (!key) {
+        document.getElementById('result').textContent = 'Please enter a word.';
+        return;
+      }
+      const entry = await fetchMeaning(key);
+      if (entry) {
+        let meanings = '';
+        for (let i = 1; i <= 4; i++) {
+          if (entry['Meaning' + i]) meanings += `<li>${entry['Meaning' + i]}</li>`;
+        }
+        document.getElementById('result').innerHTML = `<b>${entry.Key}</b><ul>${meanings}</ul>`;
+      } else {
+        document.getElementById('result').textContent = 'Word not found.';
+      }
+    }
+
+    // Form search
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const key = document.getElementById('wordInput').value.trim();
+      showResult(key);
+    });
+
+    // Query param search
+    const keyParam = getQueryParam('key');
+    if (keyParam) {
+      document.getElementById('wordInput').value = keyParam;
+      showResult(keyParam);
+    }
+    </script>
+</body>
+</html>
