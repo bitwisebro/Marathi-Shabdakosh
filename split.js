@@ -14,11 +14,14 @@ console.log(
 let foldersCreated = 0;
 const missedKeys = [];
 objects.forEach((obj) => {
-  const key = obj.Key;
+  let key = obj.Key;
   if (!key) {
     missedKeys.push(obj);
     return;
   }
+
+  // Sanitize key for folder name (replace forbidden Windows characters)
+  const safeKey = key.replace(/[\/\\:\*\?"<>\|]/g, "_");
 
   // Create a new object with only non-null Meaning fields
   const filtered = { Key: key };
@@ -28,7 +31,7 @@ objects.forEach((obj) => {
     }
   });
 
-  const folderPath = path.join(baseDir, key);
+  const folderPath = path.join(baseDir, safeKey);
   try {
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, { recursive: true });
