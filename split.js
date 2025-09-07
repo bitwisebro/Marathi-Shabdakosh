@@ -2,11 +2,11 @@ const fs = require("fs");
 const path = require("path");
 
 // Path to your main JSON file
-const inputPath = path.join(__dirname, "eng-mar", "index.json");
+const inputPath = path.join(__dirname, "mar-eng", "index.json");
 const data = JSON.parse(fs.readFileSync(inputPath, "utf8"));
 
-const baseDir = path.join(__dirname, "eng-mar");
-const objects = data.EnglishMarathiMerged;
+const baseDir = path.join(__dirname, "mar-eng");
+const objects = data.MarathiEnglishMerged;
 console.log(
   `Number of objects detected in source index.json: ${objects.length}`
 );
