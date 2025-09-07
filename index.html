@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marathi-English Static API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 2em;
+        background: #f9f9f9;
+      }
+      h1 {
+        color: #2c3e50;
+      }
+      h2 {
+        color: #34495e;
+      }
+      code,
+      pre {
+        background: #eef;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      .endpoint {
+        margin-bottom: 1em;
+      }
+      ul {
+        margin-bottom: 2em;
+      }
+      .note {
+        color: #888;
+        font-size: 0.95em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Marathi-English Static API Documentation</h1>
+    <p>
+      This project provides a static API for Marathi-English and English-Marathi
+      dictionary data, suitable for static hosting (e.g., GitHub Pages). All
+      endpoints are served as static JSON files.
+    </p>
+    <h2>Base URL</h2>
+    <p><code>https://bitwisebro.github.io/Marathi-Shabdakosh</code></p>
+
+    <h2>Available Endpoints</h2>
+
+    <div class="endpoint">
+      <h3>English-Marathi</h3>
+      <ul>
+        <li>
+          <code>/eng-mar/</code><br />
+          <span class="note"
+            >Returns the entire English-Marathi dictionary as JSON (served from
+            <code>index.json</code>).</span
+          >
+        </li>
+        <li>
+          <code>/eng-mar/{Key}/</code><br />
+          <span class="note"
+            >Returns the meaning for a specific English word
+            (<code>Key</code>).<br />
+            Example: <code>/eng-mar/optimism/</code><br />
+            <b>Note:</b> Keys are sanitized for Windows compatibility (forbidden
+            characters replaced, trimmed). The file <code>index.json</code> is
+            served by default.</span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="endpoint">
+      <h3>Marathi-English</h3>
+      <ul>
+        <li>
+          <code>/mar-eng/</code><br />
+          <span class="note"
+            >Returns the entire Marathi-English dictionary as JSON (served from
+            <code>index.json</code>).</span
+          >
+        </li>
+        <li>
+          <code>/mar-eng/{Key}/</code><br />
+          <span class="note"
+            >Returns the meaning for a specific Marathi word (<code>Key</code>),
+            <b>passed in English transliteration</b>.<br />
+            Example: <code>/mar-eng/Aai/</code> (for Marathi word "आई")<br />
+            <b>Note:</b> Keys are sanitized for Windows compatibility. The file
+            <code>index.json</code> is served by default.<br />
+            Use English transliteration for Marathi words in the URL.</span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="endpoint">
+      <h3>Error/Fallback</h3>
+      <ul>
+        <li>
+          <code>/404.html</code><br />
+          <span class="note">Static fallback page for missing endpoints.</span>
+        </li>
+      </ul>
+    </div>
+
+    <h2>Usage</h2>
+    <ul>
+      <li>All endpoints are static file paths. No backend required.</li>
+      <li>Host on GitHub Pages or any static file server.</li>
+      <li>
+        Keys in per-word endpoints are sanitized (forbidden Windows characters
+        replaced, trimmed).
+      </li>
+      <li>
+        The actual list of available <code>{Key}</code> endpoints is determined
+        by the folders present under <code>eng-mar/</code> and
+        <code>mar-eng/</code>.
+      </li>
+    </ul>
+
+    <h2>Examples</h2>
+    <pre>
+GET /eng-mar/
+GET /eng-mar/optimism/
+GET /mar-eng/
+GET /mar-eng/Aai/  # for Marathi word "आई"
+  </pre
+    >
+
+    <h2>Project Files</h2>
+    <ul>
+      <li>
+        <code>split.js</code>: Node.js script for splitting dictionary JSON into
+        per-word folders.
+      </li>
+      <li>
+        <code>eng-mar/index.json</code>: Main English-Marathi dictionary source
+        (served at <code>/eng-mar/</code>).
+      </li>
+      <li>
+        <code>mar-eng/index.json</code>: Main Marathi-English dictionary source
+        (served at <code>/mar-eng/</code>).
+      </li>
+      <li>
+        <code>eng-mar/{Key}/index.json</code>: Per-word English-Marathi files
+        (served at <code>/eng-mar/{Key}/</code>).
+      </li>
+      <li>
+        <code>mar-eng/{Key}/index.json</code>: Per-word Marathi-English files
+        (served at <code>/mar-eng/{Key}/</code>).
+      </li>
+      <li>
+        <code>missed_keys.json</code>: List of keys that failed to process
+        (root).
+      </li>
+      <li>
+        <code>flagged_folders.json</code>: List of extra folders not matching
+        current keys (root).
+      </li>
+      <li><code>404.html</code>: Static fallback page.</li>
+      <li><code>sql/</code>: SQL scripts for data cleaning.</li>
+      <li><code>.gitignore</code>: Excludes flagged_folders.json.</li>
+      <li><code>README.md</code>: Project documentation.</li>
+    </ul>
+
+    <h2>Notes</h2>
+    <ul>
+      <li>All data is static. No dynamic API logic.</li>
+      <li>Keys are sanitized for Windows compatibility.</li>
+      <li>
+        For full key lists, see the folders under <code>eng-mar/</code> and
+        <code>mar-eng/</code>.
+      </li>
+    </ul>
+  </body>
+</html>
