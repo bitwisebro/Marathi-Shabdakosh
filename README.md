@@ -6,6 +6,9 @@ A static Marathi-English and English-Marathi dictionary API for use with static 
 
 `https://bitwisebro.github.io/Marathi-Shabdakosh`
 
+## Example Request: 
+Get English Translation for 'Aai': https://bitwisebro.github.io/Marathi-Shabdakosh/mar-eng/Aai/
+
 ## Endpoints
 
 ### English-Marathi
